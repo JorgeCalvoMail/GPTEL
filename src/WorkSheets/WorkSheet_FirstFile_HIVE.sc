@@ -4,13 +4,26 @@ val sc = new SparkContext()
 val sqlContext= new org.apache.spark.sql.SQLContext(sc)
 import sqlContext.implicits._
 
+
+//                                                      NECESITAMOS QUE LA RUTA LA COJA POR PARAMETRO
 val fich_movements = sc.textFile("hdfs://nd3.hgdu.com:8020/Ficheros_LTV/CO/201608/MOVEMENTS/CO_MOVEMENTS_01_201608")
-//Quitamos la cabecera para quedarnos con los datos
+
+
+//Quitamos la cabecera para quedarnos con los datos     NECESITAMOS QUE EN CASO DE QUE CONTIENE CABECERA SEA TRUE SE OMITA LA PRIMERA LINEA
 val data_fich_movements = fich_movements.mapPartitionsWithIndex { (idx, iter) => if (idx == 0) iter.drop(1) else iter }
 
-//Creamos un Schema con la estructura del fichero
+//Creamos un Schema con la estructura del fichero:      NECESITAMOS SE GENERE EL ESQUEMA CON LAS COLUMNAS DINAMICAMENTE
+//                                                      Tenemos que disponer de una funcion que nos convierta de una tupla de campos a una en formato texto concatenado el tipo de dato
+
 case class SchemaMovements(COUNTRY_ID: String, MONTH_ID: String, CUSTOMER_ID: String, MSISDN_ID: String, SUBSCRIPTION_ID: String, ACTIVATION_DT: String, MOVEMENT_ID: String, MOVEMENT_DT: String, MOVEMENT_CHANNEL_ID: String, CAMPAIGN_ID: String, SEGMENT_CD: String, PRE_POST_ID: String, PREV_PRE_POST_ID: String, TARIFF_PLAN_ID: String, PREV_TARIFF_PLAN_ID: String, PROD_TYPE_CD: String, PORT_OP_CD: String)
 val movements = data_fich_movements.map(_.split("\\|")).map(row => SchemaMovements(row(0), row(1), row(2), row(3), row(4), row(5), row(6), row(7), row(8), row(9), row(10), row(11), row(12), row(13), row(14), row(15), row(16))).toDF()
+
+
+
+
+
+
+
 
 //ELIMINAMOS LA TABLA
 sqlContext.sql("use ltv_stg_database")
@@ -18,6 +31,16 @@ sqlContext.sql("DROP TABLE IF EXISTS ltv_stg_database.STGTBL_LTV_CO_MOVEMENTS")
 
 //LA CREAMOS
 movements.registerTempTable("fich_movements")
+
+
+
+
+
+
+
+
+
+
 val results = sqlContext.sql("CREATE TABLE ltv_stg_database.STGTBL_LTV_CO_MOVEMENTS stored as orc as select * from fich_movements")
 
 //Nos vamos al paso de ltv_raw_database
