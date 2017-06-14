@@ -1,5 +1,3 @@
-package Clases_ETL
-
 /* ---------------------------------------------------------------------------------------------------------------------
  *  Paquete.Clase : " Clases_ETL.DataSource_HDFS_File "
  *----------------------------------------------------------------------------------------------------------------------
@@ -21,53 +19,54 @@ package Clases_ETL
  * Consultar_SaltoLinea => Permite Consultar el atributo EliminarCabecera
  * Consultar_Nombre_DF => Permite Consultar el atributo Nombre_DF
  * -------------------------------------------------------------------------------------------------------------------*/
-
+package ETL.DataSources
 class DataSource_HDFS_File {
 
-  private var Ruta:String
-  private var Separador:String
-  private var SaltoLinea:String
-  private var EliminarCabecera:Boolean=false
-  private var Nombre_DF:String
+  private var Ruta: String = ""
+  private var Separador: String = ""
+  private var SaltoLinea: String = ""
+  private var EliminarCabecera: Boolean = false
+  private var Nombre_DF: String = ""
+
   //MÉTODOS
-  def Asignar_Ruta(valor:String): Unit ={
+  def Asignar_Ruta(valor:String){
     Ruta = valor
   }
 
-  def Asignar_Separador(valor:String): Unit ={
-    Ruta = valor
+  def Asignar_Separador(valor:String){
+    Separador = valor
   }
 
-  def Asignar_SaltoLinea(valor:String): Unit ={
-    Ruta = valor
+  def Asignar_SaltoLinea(valor:String){
+    SaltoLinea = valor
   }
 
-  def Asignar_Ruta(valor:String): Unit ={
-    Ruta = valor
+  def Asignar_Eliminar_Cabecera(valor:Boolean){
+    EliminarCabecera = valor
   }
 
-  def Asignar_Ruta(valor:String): Unit ={
-    Ruta = valor
+  def Asignar_Nombre_DF(valor:String){
+    Nombre_DF = valor
   }
 
-  def Consultar_Ruta():String{
-    return Ruta
+  def Consultar_Ruta():String = {
+    Ruta
   }
 
-  def Consultar_Separador():String{
-    return Separador
+  def Consultar_Separador():String = {
+    Separador
   }
 
-  def Consultar_SaltoLinea():String{
-    return SaltoLinea
+  def Consultar_SaltoLinea():String = {
+    SaltoLinea
   }
 
-  def Consultar_Ruta():Boolean{
-    return EliminarCabecera
+  def Consultar_EliminarCabecera():Boolean = {
+    EliminarCabecera
   }
 
-  def Consultar_Ruta():String{
-    return Nombre_DF
+  def Consultar_Nombre_DF():String = {
+    Nombre_DF
   }
 
 }
