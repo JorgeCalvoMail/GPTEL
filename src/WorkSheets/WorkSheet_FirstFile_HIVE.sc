@@ -6,8 +6,8 @@ import sqlContext.implicits._
 
 
 //                                                      NECESITAMOS QUE LA RUTA LA COJA POR PARAMETRO
-val fich_movements = sc.textFile("hdfs://nd3.hgdu.com:8020/Ficheros_LTV/CO/201608/MOVEMENTS/CO_MOVEMENTS_01_201608")
 
+val fich_movements = sc.textFile("hdfs://nd3.hgdu.com:8020/Ficheros_LTV/CO/201608/MOVEMENTS/CO_MOVEMENTS_01_201608")
 
 //Quitamos la cabecera para quedarnos con los datos     NECESITAMOS QUE EN CASO DE QUE CONTIENE CABECERA SEA TRUE SE OMITA LA PRIMERA LINEA
 val data_fich_movements = fich_movements.mapPartitionsWithIndex { (idx, iter) => if (idx == 0) iter.drop(1) else iter }
